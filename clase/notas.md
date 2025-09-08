@@ -18,8 +18,8 @@ El trabajo asociado al taller se realizó fuera de la sesión en las siguientes 
 Archivos generados:
 - `clase/c1-contexto-borrador.jpg` / `clase/c1-contexto-borrador.jpg`  
 - `clase/c2-contenedores-borrador.jpg` / `clase/c2-contenedores-borrador.jpg`  
-![C1 - Vista de Contexto](c1-contexto-borrador.png)
-![C2 - Vista de Contenedores](c2-contenedores-borrador.png)
+![C1 - Vista de Contexto](c1-contexto-borrador.jpg)
+![C2 - Vista de Contenedores](c2-contenedores-borrador.jpg)
 
 
 Repositorio: https://github.com/FerRamirez10/taller-03-arquitectura-c4
