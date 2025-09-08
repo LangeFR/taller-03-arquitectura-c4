@@ -37,8 +37,8 @@ Herramientas: **draw.io** para diagramas y Markdown para documentación colabora
 - `entrega/c1-contexto-final.jpg` — Diagrama C1 (Contexto) Tekton.  
 - `entrega/c2-contenedores-final.jpg` — Diagrama C2 (Contenedores) Tekton.  
 
-![C1 - Vista de Contexto](entrega/c1-contexto-final.jpg)
-![C2 - Vista de Contenedores](entrega/c2-contenedores-final.jpg)
+![C1 - Vista de Contexto](c1-contexto-final.jpg)
+![C2 - Vista de Contenedores](c2-contenedores-final.jpg)
 
 
 
