@@ -1,5 +1,5 @@
 ## 🔖 Nombre del Taller
-_Taller 3 - Arquitectura Actual del Sistema con el Modelo C4_
+_Taller 4 - Mapa de Infraestructura y Diagnóstico Técnico_
 
 ## 👥 Integrantes del equipo
 - Diego Ramírez - diegorate@unisabana.edu.co  
@@ -7,73 +7,66 @@ _Taller 3 - Arquitectura Actual del Sistema con el Modelo C4_
 - Mateo Vanegas - mateovaco@unisabana.edu.co
 
 ## 🧠 Descripción general del trabajo
-Este documento presenta la modelación y el análisis de la **arquitectura actual** del sistema de **Tekton Technologies** usando las vistas C1 (Contexto) y C2 (Contenedores) del C4 Model. El trabajo consistió en mapear actores internos y externos, documentar flujos de información críticos, identificar contenedores tecnológicos actuales (Backoffice y datastores) y evaluar debilidades operativas y riesgos asociados al elevado uso de procesos manuales. El objetivo final es entregar una base técnica para priorizar mejoras orientadas a automatización, trazabilidad y escalabilidad.
+Technologies mediante un mapa lógico que refleja cómo se despliegan y conectan los recursos que soportan sus operaciones. El objetivo del taller fue identificar, con base en el estado AS-IS de la organización, cuáles son los nodos de cómputo, servicios externos y repositorios de datos que conforman la arquitectura vigente, para posteriormente diagnosticar sus debilidades, cuellos de botella y oportunidades de mejora.
+
+La actividad se desarrolló tomando como punto de partida los hallazgos de ejercicios previos (C1 y C2 del modelo C4) y trasladando los contenedores allí identificados hacia un esquema de despliegue realista. En este contexto, se representaron los portátiles del equipo como el núcleo de operación, los servicios SaaS externos (ERP Sigo, portales de banco, clientes y aliados) y el uso del correo electrónico como repositorio de facto de documentos. El resultado es un diagrama que evidencia la simplicidad y fragilidad de la infraestructura actual, así como su dependencia de procesos manuales y de servicios externos no integrados
 
 ## 🔧 Proceso de desarrollo
-1. **Revisión de artefactos:** Se analizaron los diagramas C1 y C2 aportados por el cliente (versiones de clase y real) para extraer actores, eventos y canales de comunicación.  
-2. **Modelado incremental:** Se trazó la vista de contexto (C1) para identificar límites del sistema y actores (Cliente corporativo, Cliente final, Aliado comercial, Áreas internas, Gerente). Posteriormente se detalló la vista de contenedores (C2) centrada en el Backoffice Tekton y sus repositorios de soporte (correos/adjuntos y planillas internas).  
-3. **Inventario de flujos y datos:** Se documentaron los flujos críticos (alta clientes, pedidos, registro de entregas, reportes KPI, conciliación contable) y los medios usados (email, portales, SMTP, interacciones manuales con ERP).  
-4. **Análisis de riesgos y recomendaciones:** Se identificaron debilidades técnicas y operativas y se priorizaron recomendaciones (quick wins, mediano y largo plazo), considerando impacto y esfuerzo.  
-5. **Validación y cierre:** Se consolidó el informe técnico y la lista de entregables para el repositorio.
+1. **Revisión de insumos previos:** Se analizaron los entregables del taller anterior (diagramas C1 y C2) para identificar los actores, contenedores y flujos de información críticos que debían trasladarse a un nivel de infraestructura. Esto permitió establecer qué debía representarse como nodo lógico o físico y qué debía modelarse como servicio externo.
+
+2. **Identificación de nodos principales:** Se decidió agrupar los recursos de cómputo internos en un único *pool de laptops del equipo*, ya que Tekton no cuenta con servidores dedicados ni infraestructura centralizada. También se incluyeron explícitamente los servicios SaaS con los que la empresa interactúa (ERP Sigo, portales de clientes y aliados, portal bancario y MTA de correo).
+
+3. **Asignación de artefactos a nodos:** A cada nodo se le asoció la funcionalidad o repositorio que actualmente soporta. En los portátiles se ubicó el *Backoffice Tekton* (procesos manuales de ofimática y correo) y las *planillas locales*. En el servicio de correo se señaló el datastore de buzones y adjuntos, considerado repositorio de facto.
+
+4. **Definición de conexiones:** Se trazaron las relaciones de uso entre los nodos, especificando los protocolos o medios de interacción más frecuentes (SMTP/IMAP/HTTPS para correo, descargas manuales de extractos bancarios, portales web para facturación y conciliación, intercambio de archivos vía email).
+
+5. **Iteración y simplificación:** Se realizaron varios ajustes para evitar sobrecargar el diagrama. En lugar de modelar cada portátil individualmente, se representó un único nodo con multiplicidad. De igual forma, se agruparon todos los servicios externos bajo un boundary común. Esto mantuvo el mapa comprensible y al mismo tiempo realista.
+
+6. **Herramientas utilizadas:** El modelado se llevó a cabo en *draw.io*, manteniendo la notación UML de despliegue y siguiendo las prácticas de C4-Deployment para expresar nodos, artefactos y límites de sistema. La documentación se preparó en Markdown para facilitar la colaboración y el control de versiones.
+
 
 Herramientas: **draw.io** para diagramas y Markdown para documentación colaborativa.
 
 ## 🧩 Análisis del modelo propuesto
+
 ### Cómo se estructura el modelo entregado
-- **C1 (Contexto):** Tekton aparece como el sistema central que recibe y envía información hacia/desde clientes corporativos y finales, aliados comerciales y áreas internas. Describe claramente los límites del sistema y los puntos de interacción externos (bancos, ERP, servicios de notificaciones).  
-- **C2 (Contenedores):** El núcleo es el *Backoffice Tekton* (sistema central con procesos mayoritariamente manuales). Lo acompañan dos datastores principales: uno para correos y adjuntos y otro para planillas internas. También se identifican integraciones con Sigo (ERP/Contabilidad), portales bancarios y un servicio de notificaciones (MTA/SMTP).
+El modelo se organiza en tres agrupaciones principales: la **Oficina Bogotá**, donde se encuentra el pool de laptops del equipo con los artefactos Backoffice Tekton y planillas locales; el **Proveedor de Correo SaaS**, que actúa como repositorio de facto para documentos y adjuntos; y los **Servicios Externos**, que incluyen ERP Sigo, portales bancarios, portales de clientes y portales de aliados. Las conexiones se describen con los medios de interacción predominantes (correo electrónico, descargas manuales, portales web), reflejando el carácter manual y descentralizado de la infraestructura. 
 
 ### Cómo representa las necesidades del cliente
-- El modelo refleja las necesidades operativas de Tekton: **gestión de contratos y altas de cliente**, **recepción y despacho de pedidos**, **registro de entregas** y **generación de reportes KPI** para gerencia.  
-- También deja en evidencia la dependencia de procesos manuales que afectan tiempos de respuesta, trazabilidad y capacidad de escalar operaciones sin errores.
+El modelo refleja con fidelidad el estado actual de Tekton, evidenciando que la operación depende de un conjunto limitado de laptops personales, del correo electrónico como canal principal y de servicios SaaS sin integración formal. Esta representación permite entender por qué la empresa enfrenta problemas de trazabilidad, control y estandarización: no existe un CRM ni un repositorio central, la conciliación se realiza con planillas, y la facturación se gestiona manualmente a través de portales. El mapa deja en claro las carencias de la infraestructura actual frente a los objetivos estratégicos de Tekton (centralización, automatización, visibilidad operativa).
 
 ### Supuestos tomados
-- Las integraciones con ERP y bancos son mayoritariamente manuales o vía portal (no API nativa).  
-- El Backoffice es un sistema centralizado (monolítico o modularidad limitada) con ausencia de un bus de integración o event broker robusto.  
-- El almacenamiento de documentos es no estructurado (correo/adjuntos y planillas Excel/CSV) y carece de metadatos estandarizados.
+- Se asumió que el **pool de laptops** representa a todos los empleados y que en ellos conviven tanto funciones administrativas como operativas.  
+- Se modeló el **correo electrónico** como un nodo SaaS independiente con datastore, dado que allí se concentra la mayoría de los documentos críticos.  
+- Se consideró que los **servicios externos (ERP Sigo, bancos, portales)** se consumen exclusivamente vía portales web, sin integración API nativa.  
+- No se incluyeron otros elementos de red (firewall, switches) por no tener evidencia en los insumos, manteniendo el modelo en un nivel lógico simplificado.  
+
 
 ## 📈 Diagrama final entregado
 
-- `entrega/c1-contexto-final.jpg` — Diagrama C1 (Contexto) Tekton.  
-- `entrega/c2-contenedores-final.jpg` — Diagrama C2 (Contenedores) Tekton.  
+- `entrega/Diagrama-Infraestructura-Tekton.drawio.png` — Diagrama Infraestructura Tekton.  
 
-![C1 - Vista de Contexto](c1-contexto-final.jpg)
-![C2 - Vista de Contenedores](c2-contenedores-final.jpg)
+![Infraestructura Tekton](Diagrama-Infraestructura-Tekton.drawio.png)
 
 
-
-
-## 📋 Tabla de actores, entidades o componentes (si aplica)
-
-| Nombre del elemento   | Tipo         | Descripción | Responsable |
-|-----------------------|--------------|-------------|-------------|
-| Cliente corporativo   | Actor        | Empresa que solicita servicio y envía PO/documentación | Comercial |
-| Cliente final         | Actor        | Usuario final que solicita despachos y confirma entregas | Operaciones |
-| Aliado comercial      | Actor        | Partner que envía datos de clientes finales y recibe estados | Alianzas |
-| Área administrativa   | Interno      | Gestiona altas de cliente, contratos y datos de facturación | Administración |
-| Área de operaciones   | Interno      | Registra entregas y gestiona pendientes logísticos | Operaciones |
-| Gerente               | Stakeholder  | Consume reportes KPI y toma decisiones estratégicas | Dirección |
-| Backoffice Tekton     | Contenedor   | Aplicación central con procesos y reglas de negocio (alto grado manual) | TI/Operaciones |
-| Datastore - Correos   | Contenedor   | Almacenamiento de correos y adjuntos (no estructurado) | TI |
-| Datastore - Planillas | Contenedor   | Planillas internas (Excel/CSV) usadas para operación | TI/Operaciones |
-| Sigo (ERP/Contab.)    | Sistema ext. | Sistema contable para emisión de facturas y registros | Contabilidad / Tercero |
-| Servicio de Notif.    | Sistema ext. | MTA/SMTP para envío de avisos a clientes y aliados | Proveedor |
-| Banco / Portal API    | Sistema ext. | Portal o API bancaria para conciliación/extractos | Finanzas / Banco |
 
 ## 🔍 Investigación complementaria
 ### Tema investigado:
 Automatización de Backoffice e integración API-first en organizaciones B2B.
 
 ### Resumen:
-La investigación se centró en patrones de integración y estrategias de modernización aplicables a empresas que dependen aún de procesos manuales. Dos enfoques recurrentes son (1) **API-first**, que obliga a definir contratos claros y versionables entre sistemas, permitiendo a clientes y aliados integrarse de forma controlada; y (2) **desacoplamiento mediante mensajería asíncrona** (colas o event streaming) para procesar pedidos, notificaciones y conciliaciones sin bloquear flujos operativos. Estos patrones reducen dependencia de intervención manual, mejoran trazabilidad y permiten escalar procesamiento en horas pico.
+En el ecosistema C4, la Deployment view sirve para ilustrar cómo instancias de software (sistemas o contenedores del C2) se mapean a nodos de infraestructura dentro de un ambiente específico (producción, staging, etc.). Esta vista hereda conceptos de UML Deployment y pone el foco en qué se despliega dónde y cómo se conectan esos elementos; no en componentes internos ni código. Esto la hace ideal para complementar nuestros C1/C2 con un mapa lógico/físico realista del AS-IS. 
+C4 model
 
-Además, la evidencia práctica indica que una migración progresiva —comenzando por exponer APIs críticas (alta de cliente, creación de pedido, confirmación de entrega) y estructurar el almacenamiento de documentos— genera beneficios tempranos. Paralelamente, se recomienda construir pipelines ETL/ELT para alimentar un datawarehouse que soporte dashboards KPI, y diseñar adaptadores para ERP que eliminen la necesidad de conciliaciones manuales.
+Para profundizar la capa tecnológica, ArchiMate 3.1 aporta un vocabulario formal de infraestructura: Node (recurso de TI que hospeda artefactos), Device (recurso físico), System software (entorno de ejecución) y Artifact (unidad desplegable). Estos elementos permiten describir con precisión dónde residen aplicaciones y datos, y qué relaciones existen entre los recursos (p. ej., caminos de comunicación). Usar esta semántica enriquece la lectura del mapa y facilita el diagnóstico de riesgos de infraestructura y dependencias. 
+www.opengroup.org
+
+Aplicado a Tekton, nuestro diagrama modela el pool de laptops como un Node que ejecuta los Artifacts “Backoffice Tekton” y “Planillas”; el MTA/Email como Node externo que actúa como datastore de facto; y los SaaS (ERP Sigo, banco, portales) como nodos externos conectados vía HTTPS/SMTP/IMAP. Separar los boundaries (oficina vs. servicios externos) y explicitar medios/protocolos sigue las guías de la Deployment view de C4 y permite razonar sobre disponibilidad, trazabilidad y puntos únicos de falla en el estado actual.
 
 ## 📚 Referencias
-- [1] Brown, Simon. *The C4 Model for Software Architecture*. 2019. https://c4model.com/  
-- [2] Hohpe, Gregor & Woolf, Bobby. *Enterprise Integration Patterns*. 2003.  
-- [3] ThoughtWorks. *Tech Radar* — prácticas de integración y observabilidad.  
-- [4] Material sobre API-first y OpenAPI (documentación y guías prácticas).
+- [1] S. Brown, “Deployment diagram – C4 model,” c4model.com, 2024. [Online]. Available: https://c4model.com/diagrams/deployment
+- [2] The Open Group, “ArchiMate® 3.1 Specification,” 2019. [Online]. Available: https://www.opengroup.org/sites/default/files/docs/downloads/n190p_5.pdf
+
 
 ---
 
